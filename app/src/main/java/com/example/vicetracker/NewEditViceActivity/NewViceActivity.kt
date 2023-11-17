@@ -30,7 +30,7 @@ class NewViceActivity : AppCompatActivity() {
             newViceViewModel.updateId(id)
         }
         newViceViewModel.curVice.observe(this){
-                vice->vice?.let { editViceView.setText(vice.vice)}
+                vice->vice?.let { editViceView.setText(vice.name)}
         }
 
         val button = findViewById<Button>(R.id.button_save)
@@ -38,15 +38,14 @@ class NewViceActivity : AppCompatActivity() {
             CoroutineScope(SupervisorJob()).launch {
                 if(id==-1) {
                     newViceViewModel.insert(
-                        Vice(null, editViceView.text.toString(),0)
+                        Vice(null, editViceView.text.toString(),0, 0)
                     )
                 }else{
                     val updatedVice = newViceViewModel.curVice.value
                     if (updatedVice != null) {
-                        updatedVice.vice = editViceView.text.toString()
+                        updatedVice.name = editViceView.text.toString()
                         newViceViewModel.update(updatedVice)
                     }
-
                 }
             }
 

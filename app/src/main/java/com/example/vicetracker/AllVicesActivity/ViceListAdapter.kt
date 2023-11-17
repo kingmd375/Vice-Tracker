@@ -1,4 +1,4 @@
-package com.example.vicetracker.MainActivity
+package com.example.vicetracker.AllVicesActivity
 
 import android.view.LayoutInflater
 import android.view.View

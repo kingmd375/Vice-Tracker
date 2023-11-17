@@ -14,10 +14,13 @@
         android:theme="@style/Theme.ViceTracker"
         tools:targetApi="31">
         <activity
+            android:name=".ViewViceActivity.ViewViceActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewEditViceActivity.NewViceActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity.MainActivity"
+            android:name=".AllVicesActivity.AllVicesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

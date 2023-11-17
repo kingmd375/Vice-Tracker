@@ -1,4 +1,4 @@
-package com.example.vicetracker.MainActivity
+package com.example.vicetracker.AllVicesActivity
 
 import android.app.Activity
 import android.content.Intent
@@ -16,7 +16,7 @@ import com.example.vicetracker.R
 import com.example.vicetracker.VicesApplication
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class AllVicesActivity : AppCompatActivity() {
     //This is our viewModel instance for the MainActivity class
     private val viceListViewModel: ViceListViewModel by viewModels {
         ViceListViewModelFactory((application as VicesApplication).repository)
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_all_vices)
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
         val adapter = ViceListAdapter {
@@ -41,9 +41,9 @@ class MainActivity : AppCompatActivity() {
             //when a view in the ViceListAdapter is clicked
 
             //First we log the vice
-            Log.d("MainActivity",it.vice)
+            Log.d("MainActivity",it.name)
             //Then create a new intent with the ID of the vice
-            val intent = Intent(this@MainActivity, NewViceActivity::class.java)
+            val intent = Intent(this@AllVicesActivity, NewViceActivity::class.java)
             intent.putExtra(EXTRA_ID,it.id)
             //And start the activity through the results contract
             startNewViceActivity.launch(intent)
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val intent = Intent(this@MainActivity, NewViceActivity::class.java)
+            val intent = Intent(this@AllVicesActivity, NewViceActivity::class.java)
             startNewViceActivity.launch(intent)
         }
     }

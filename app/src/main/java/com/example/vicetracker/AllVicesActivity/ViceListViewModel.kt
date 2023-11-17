@@ -1,4 +1,4 @@
-package com.example.vicetracker.MainActivity
+package com.example.vicetracker.AllVicesActivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
