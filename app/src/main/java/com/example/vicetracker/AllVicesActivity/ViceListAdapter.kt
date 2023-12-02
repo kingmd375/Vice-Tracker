@@ -17,7 +17,7 @@ class ViceListAdapter(val viceClicked:(vice: Vice)->Unit): ListAdapter<Vice, Vic
 
     override fun onBindViewHolder(holder: ViceViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.vice,current.quantity)
+        holder.bind(current.name,current.amount)
         holder.itemView.tag= current
         holder.itemView.setOnClickListener{
             viceClicked(holder.itemView.tag as Vice)
@@ -46,7 +46,7 @@ class ViceListAdapter(val viceClicked:(vice: Vice)->Unit): ListAdapter<Vice, Vic
             return oldItem === newItem
         }
         override fun areContentsTheSame(oldItem: Vice, newItem: Vice): Boolean {
-            return oldItem.vice == newItem.vice
+            return oldItem.name == newItem.name
         }
     }
 }

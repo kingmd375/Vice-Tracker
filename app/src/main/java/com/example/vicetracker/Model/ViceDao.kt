@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ViceDao {
     //Get all vices alphabetized
-    @Query("SELECT * FROM vice_table ORDER BY vice ASC")
+    @Query("SELECT * FROM vice_table ORDER BY name ASC")
     fun getAlphabetizedVices(): Flow<List<Vice>>
 
     //Get a single vice with a given id

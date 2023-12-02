@@ -29,9 +29,9 @@ abstract class ViceRoomDatabase : RoomDatabase() {
                     viceDao.deleteAll()
 
                     // Add sample vices.
-                    var vice = Vice(null,"Spaghetti",1)
+                    var vice = Vice(null,"Spaghetti",10, 2)
                     viceDao.insert(vice)
-                    vice = Vice(null,"Chicken",7)
+                    vice = Vice(null,"Chicken",7, 3)
                     viceDao.insert(vice)
                 }
             }
