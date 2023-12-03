@@ -15,13 +15,54 @@
         android:layout_margin="@dimen/big_padding"
         android:textSize="18sp" />
 
+    <EditText
+        android:id="@+id/edit_unit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height"
+        android:fontFamily="sans-serif-light"
+        android:hint="Unit..."
+        android:inputType="textAutoComplete"
+        android:layout_margin="@dimen/big_padding"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/edit_increment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/min_height"
+        android:fontFamily="sans-serif-light"
+        android:hint="Track in increments of..."
+        android:inputType="textAutoComplete"
+        android:layout_margin="@dimen/big_padding"
+        android:textSize="18sp" />
+
     <Button
         android:id="@+id/button_save"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="@dimen/big_padding"
         android:background="@color/colorPrimary"
         android:text="@string/button_save"
+        android:textColor="@color/buttonLabel"
+        android:textSize="30dp" />
+
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_margin="@dimen/big_padding"
-        android:textColor="@color/buttonLabel" />
+        android:background="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Delete"
+        android:textColor="@color/buttonLabel"
+        android:textColorHighlight="#FF0000"
+        android:textColorLink="#FF0000"
+        android:textSize="30dp" />
+
+
+<!--    android:layout_constraintBottom_toBottomOf="parent"-->
+<!--    android:layout_constraintEnd_toEndOf="parent"-->
+<!--    android:layout_constraintStart_toStartOf="parent"-->
 
 </LinearLayout>
