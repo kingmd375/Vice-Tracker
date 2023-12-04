@@ -32,4 +32,7 @@ interface ViceDao {
     //Update a single vice
     @Update
     suspend fun update(vice: Vice):Int
+
+    @Query("DELETE from vice_table WHERE id=:id")
+    suspend fun deleteVice(id: Int)
 }
