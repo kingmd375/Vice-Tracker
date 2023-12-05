@@ -1,4 +1,4 @@
-package com.example.vicetracker.NewEditViceActivity
+package com.example.vicetracker.NewViceActivity
 
 import android.os.Bundle
 import android.widget.Button
