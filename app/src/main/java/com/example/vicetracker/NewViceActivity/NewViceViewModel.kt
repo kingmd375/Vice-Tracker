@@ -1,5 +1,6 @@
 package com.example.vicetracker.NewViceActivity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,14 @@ class NewViceViewModel(private val repository: ViceRepository, private val id:In
         coroutineScope {
             repository.update(vice)
         }
+    }
+
+    suspend fun deleteVice(id: Int) {
+        coroutineScope {
+            Log.d("ViewModel","Deleting id: $id")
+            repository.deleteVice(id)
+        }
+
     }
 }
 

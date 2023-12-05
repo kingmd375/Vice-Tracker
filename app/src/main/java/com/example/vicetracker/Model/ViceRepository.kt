@@ -1,5 +1,6 @@
 package com.example.vicetracker.Model
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 
@@ -39,5 +40,12 @@ class ViceRepository(private val viceDao: ViceDao) {
     @WorkerThread
     suspend fun update(vice: Vice) {
         viceDao.update(vice)
+    }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteVice(id: Int) {
+        Log.d("Model","Deleting id: $id")
+        viceDao.deleteVice(id)
     }
 }
