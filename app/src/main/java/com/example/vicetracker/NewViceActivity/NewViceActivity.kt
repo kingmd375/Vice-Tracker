@@ -1,4 +1,4 @@
-package com.example.vicetracker.NewEditViceActivity
+package com.example.vicetracker.NewViceActivity
 
 import android.icu.text.DateFormat
 import android.os.Bundle

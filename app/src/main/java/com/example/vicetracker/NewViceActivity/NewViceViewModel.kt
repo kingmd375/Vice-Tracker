@@ -1,4 +1,4 @@
-package com.example.vicetracker.NewEditViceActivity
+package com.example.vicetracker.NewViceActivity
 
 import android.util.Log
 import androidx.lifecycle.LiveData
