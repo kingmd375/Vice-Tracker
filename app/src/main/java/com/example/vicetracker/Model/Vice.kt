@@ -10,6 +10,8 @@ class Vice (
     //It needs to be nullable when creating a new word in the database
     @PrimaryKey(autoGenerate = true) val id: Int?,
     @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "limit") val limit: Int,
-    @ColumnInfo(name = "amount") var amount: Int
+    @ColumnInfo(name = "limit") var limit: Int,
+    @ColumnInfo(name = "amount") var amount: Int,
+    @ColumnInfo(name = "unit") var unit: String,
+    @ColumnInfo(name = "increment") var increment: String
 )
