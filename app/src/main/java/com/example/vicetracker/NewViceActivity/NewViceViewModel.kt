@@ -39,7 +39,6 @@ class NewViceViewModel(private val repository: ViceRepository, private val id:In
             Log.d("ViewModel","Deleting id: $id")
             repository.deleteVice(id)
         }
-
     }
 }
 

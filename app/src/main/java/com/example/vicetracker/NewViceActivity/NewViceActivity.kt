@@ -1,5 +1,6 @@
 package com.example.vicetracker.NewViceActivity
 
+import android.icu.text.DateFormat
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -13,13 +14,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 const val EXTRA_ID:String = "com.example.vicetracker.NewViceActivity.EXTRA_ID"
 class NewViceActivity : AppCompatActivity() {
     private lateinit var editViceView: EditText
     private lateinit var editViceUnit: EditText
     private lateinit var editViceIncrement: EditText
-    private lateinit var editViceDelete: EditText
 
 
     private val newViceViewModel: NewViceViewModel by viewModels {
@@ -38,23 +39,30 @@ class NewViceActivity : AppCompatActivity() {
             newViceViewModel.updateId(id)
         }
         newViceViewModel.curVice.observe(this){
-                vice->vice?.let { editViceView.setText(vice.name)}
+//                vice->vice?.let { editViceView.setText(vice.name)}
+            vice->vice?.let {
+                updateViewUI(vice)
+            }
         }
+
 
 
         val button = findViewById<Button>(R.id.button_save)
         button.setOnClickListener {
             CoroutineScope(SupervisorJob()).launch {
                 if(id==-1) {
-                    newViceViewModel.insert(
-                        Vice(null, editViceView.text.toString(),0, 0)
-                    )
-                }else{
-                    val updatedVice = newViceViewModel.curVice.value
-                    if (updatedVice != null) {
-                        updatedVice.name = editViceView.text.toString()
-                        newViceViewModel.update(updatedVice)
-                    }
+//                    newViceViewModel.insert(
+//                        Vice(null, editViceView.text.toString(),0, 0, "", "")
+//                    )
+                    getTaskFromUI()?.let { vice -> newViceViewModel.insert(vice) }
+                }
+                else{
+//                    val updatedVice = newViceViewModel.curVice.value
+//                    if (updatedVice != null) {
+//                        updatedVice.name = editViceView.text.toString()
+//                        newViceViewModel.update(updatedVice)
+//                    }
+                    getTaskFromUI()?.let { vice -> newViceViewModel.update(vice) }
                 }
             }
 
@@ -76,5 +84,38 @@ class NewViceActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    fun getTaskFromUI():Vice?{
+        val id = intent.getIntExtra(EXTRA_ID,-1)
+        var vice:Vice?
+        if(id!=-1) {
+            vice = newViceViewModel.curVice.value
+        }else {
+            vice = Vice(null,"",0,0, "", "")
+        }
+        if (vice != null) {
+            vice.name = editViceView.text.toString()
+            vice.unit = editViceUnit.text.toString()
+            vice.increment = editViceIncrement.text.toString()
+        }
+        return vice
+    }
+    fun updateViewUI(vice: Vice){
+
+        editViceView.setText(vice.name)
+        editViceUnit.setText(vice.unit)
+        editViceIncrement.setText(vice.increment)
+//        if(task.taskDueDate != null) {
+//            val cal: Calendar = Calendar.getInstance()
+//            cal.timeInMillis = task.taskDueDate!!
+//            etDate.setText(java.text.DateFormat.getDateTimeInstance(
+//                DateFormat.DEFAULT,
+//                DateFormat.SHORT
+//            ).format(cal.timeInMillis))
+//        }else{
+//            etDate.setText("")
+//        }
+//        checkBox.isChecked = task.taskCompleted
     }
 }
