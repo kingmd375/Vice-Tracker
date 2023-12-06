@@ -58,9 +58,11 @@ class ViceRepository(private val viceDao: ViceDao, private val dayAmountDao: Day
         // get the current date without hours, minutes, seconds, milliseconds
         val currentTime = Date().time
         val currentDate = currentTime - currentTime % (24*60*60*1000)
+        Log.d("ViceRepository", "incrmenenting vice with id ${vice.id} date ${vice.prevDate} amount ${vice.amount}")
 
         // If the previous date (with time) was later than today's date, update the dayAmount corresponding to today
         if(vice.prevDate == currentDate) {
+            Log.d("ViceRepository", "updating ${vice.id} dayAmount")
             // update today's dayAmount
             val updatedDayAmount = vice.id?.let { DayAmount(it, currentDate, vice.amount+1) }
             if (updatedDayAmount != null) {
@@ -68,6 +70,7 @@ class ViceRepository(private val viceDao: ViceDao, private val dayAmountDao: Day
             }
         } else {
             // create a new dayAmount corresponding to today
+            Log.d("ViceRepository", "inserting new dayAmount for ${vice.id}")
             val newDayAmount = vice.id?.let { DayAmount(it, currentDate, 1) }
             if (newDayAmount != null) {
                 dayAmountDao.insert(newDayAmount)

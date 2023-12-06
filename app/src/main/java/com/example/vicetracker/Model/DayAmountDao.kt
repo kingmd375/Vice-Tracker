@@ -9,15 +9,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DayAmountDao {
-    // Get all occurrences of a vice
-    @Query("SELECT * FROM dayAmount_table WHERE vice_id=:id")
+    // Get all occurrences of a dayAmount in ascending order
+    @Query("SELECT * FROM dayAmount_table WHERE vice_id=:id ORDER BY date ASC")
     fun getViceDayAmounts(id:Int): Flow<List<DayAmount>>
 
-    // Insert a single vice
+    // Insert a single dayAmount
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(dayAmount: DayAmount)
 
-    // Update a single vice
+    // Update a single dayAmount
     @Update
     suspend fun update(dayAmount: DayAmount)
 

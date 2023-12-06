@@ -44,9 +44,8 @@ abstract class ViceRoomDatabase : RoomDatabase() {
                     dayAmountDao.insert(dayAmount)
                     dayAmount = DayAmount(0, 1701820800000 - 3*24*3600*1000, 10)
                     dayAmountDao.insert(dayAmount)
+
                     dayAmount = DayAmount(1, 1701820800000 - 4*24*3600*1000, 1)
-                    dayAmountDao.insert(dayAmount)
-                    dayAmount = DayAmount(0, 1701820800000, 1)
                     dayAmountDao.insert(dayAmount)
                     dayAmount = DayAmount(1, 1701820800000, 2)
                     dayAmountDao.insert(dayAmount)

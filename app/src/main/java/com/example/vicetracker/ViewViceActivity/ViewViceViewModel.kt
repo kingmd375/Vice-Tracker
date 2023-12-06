@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import com.example.vicetracker.Model.DayAmount
 import com.example.vicetracker.Model.Vice
 import com.example.vicetracker.Model.ViceRepository
 import com.example.vicetracker.NewViceActivity.NewViceViewModel
 
 class ViewViceViewModel(private val repository: ViceRepository, private val id:Int) : ViewModel() {
     var curVice: LiveData<Vice> = repository.getVice(id).asLiveData()
+    var curViceDayAmounts: LiveData<List<DayAmount>> = repository.getViceDayAmounts(id).asLiveData()
 
     fun updateId(id:Int){
         curVice = repository.getVice(id).asLiveData()
+        curViceDayAmounts = repository.getViceDayAmounts(id).asLiveData()
     }
 }
 

@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import kotlin.math.roundToInt
 
-
+// classes that determine how the chart axes look
 class XAxisValueFormatter() : ValueFormatter() {
     private val formatter = SimpleDateFormat("MMM-DD")
     override fun getAxisLabel(value: Float, axis: AxisBase): String {

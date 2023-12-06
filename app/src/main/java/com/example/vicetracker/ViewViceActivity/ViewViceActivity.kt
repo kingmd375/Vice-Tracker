@@ -1,6 +1,7 @@
 package com.example.vicetracker.ViewViceActivity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vicetracker.NewViceActivity.EXTRA_ID
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
+import java.util.Date
 
 
 class ViewViceActivity : AppCompatActivity() {
@@ -35,26 +37,64 @@ class ViewViceActivity : AppCompatActivity() {
         }
         barChart = findViewById(R.id.chart)
 
-        // Get ID from intent
+        // format chart
+        formatChart()
+
+        // Get ID from intent and get that vice's data
         val id = intent.getIntExtra(EXTRA_ID,-1)
         viewViceViewModel.updateId(id)
         viewViceViewModel.curVice.observe(this) {
                 vice->vice?.let { if (toolbar != null) { toolbar.setTitle(vice.name) } }
         }
+        viewViceViewModel.curViceDayAmounts.observe(this) {
+            if (toolbar != null) addChartData()
+        }
+    }
 
-        // format chart
+    private fun formatChart() {
         val xAxis: XAxis = barChart.getXAxis()
         val yAxis: YAxis = barChart.getAxisLeft()
 
+        // format x axis
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
         xAxis.setValueFormatter(XAxisValueFormatter())
+        Log.d("ViewVice", "formatted chart")
+    }
 
-        // put data on chart
+    private fun addChartData() {
+        Log.d("ViewVice", "adding chart data...")
         // Create list of entry objects with data and X position
-        val data = listOf(1,2,3,4,5,6,7)
+        // get the day amounts of the current vice
+        val allDayAmounts = viewViceViewModel.curViceDayAmounts.value
+
+        // make a new list with an amount for each of the past 7 days
+        // data that will go into chart
         val dataEntries = mutableListOf<BarEntry>()
-        for (i in data.indices) {
-            dataEntries.add(BarEntry(i.toFloat(), data[i].toFloat()))
+        // today's date with time removed and date from a week ago
+        val currentTime = Date().time
+        val currentDate = currentTime - currentTime % (24*60*60*1000)
+        for(i in 0..6) {
+            // see if there is a dayAmount in allDayAmounts corresponding to this day, return its indexj
+            Log.d("ViewVice", "day $i")
+            var ithDay = (6-i)*24*60*60*1000
+            var index = -1
+            if (allDayAmounts != null) {
+                for (j in allDayAmounts.indices) {
+                    if (currentDate - ithDay == allDayAmounts[j].date) {
+                        index = j
+                        break
+                    }
+                }
+            } else Log.d("ViewVice", "allDayAmounts is null!!!")
+
+            // if a day amount for this day was found, make an entry with it, make a blank entry otherwise
+            if (index != -1 && allDayAmounts != null) {
+                Log.d("ViewVice", "index $index found")
+                dataEntries.add(BarEntry(i.toFloat(), allDayAmounts[index].amount.toFloat()))
+            } else {
+                Log.d("ViewVice", "index not found")
+                dataEntries.add((BarEntry(i.toFloat(), 0.toFloat())))
+            }
         }
 
         // give data lable and add to chart
