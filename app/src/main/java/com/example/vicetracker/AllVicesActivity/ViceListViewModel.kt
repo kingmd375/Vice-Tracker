@@ -1,5 +1,6 @@
 package com.example.vicetracker.AllVicesActivity
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,10 @@ class ViceListViewModel(private val repository: ViceRepository) : ViewModel() {
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allVices: LiveData<List<Vice>> = repository.allVices.asLiveData()
+
+    fun increment(id:Int){
+        Log.d("AllVicesViewModel","BUTTON")
+    }
 }
 
 class ViceListViewModelFactory(private val repository: ViceRepository) : ViewModelProvider.Factory {
@@ -23,4 +28,6 @@ class ViceListViewModelFactory(private val repository: ViceRepository) : ViewMod
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
+
+
 }

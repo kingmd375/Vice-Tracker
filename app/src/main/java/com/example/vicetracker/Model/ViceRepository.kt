@@ -48,4 +48,10 @@ class ViceRepository(private val viceDao: ViceDao) {
         Log.d("Model","Deleting id: $id")
         viceDao.deleteVice(id)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateCompleted(id: Int) {
+        viceDao.updateCompleted(id)
+    }
 }

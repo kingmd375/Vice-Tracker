@@ -21,6 +21,7 @@ class NewViceActivity : AppCompatActivity() {
     private lateinit var editViceView: EditText
     private lateinit var editViceUnit: EditText
     private lateinit var editViceIncrement: EditText
+    private lateinit var editViceLimit: EditText
 
 
     private val newViceViewModel: NewViceViewModel by viewModels {
@@ -33,6 +34,7 @@ class NewViceActivity : AppCompatActivity() {
         editViceView = findViewById(R.id.edit_vice)
         editViceUnit = findViewById(R.id.edit_unit)
         editViceIncrement = findViewById(R.id.edit_increment)
+        editViceLimit = findViewById(R.id.edit_limit)
 
         val id = intent.getIntExtra(EXTRA_ID,-1)
         if(id != -1){
@@ -98,6 +100,7 @@ class NewViceActivity : AppCompatActivity() {
             vice.name = editViceView.text.toString()
             vice.unit = editViceUnit.text.toString()
             vice.increment = editViceIncrement.text.toString()
+            vice.limit = editViceLimit.text.toString().toInt()
         }
         return vice
     }

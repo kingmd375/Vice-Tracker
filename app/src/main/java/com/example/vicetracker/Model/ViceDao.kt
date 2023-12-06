@@ -35,4 +35,7 @@ interface ViceDao {
 
     @Query("DELETE from vice_table WHERE id=:id")
     suspend fun deleteVice(id: Int)
+
+    @Query("UPDATE vice_table SET amount=amount+1 WHERE id=:id")
+    suspend fun updateCompleted(id: Int)
 }

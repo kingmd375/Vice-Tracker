@@ -1,5 +1,6 @@
 package com.example.vicetracker.AllVicesActivity
 
+import android.os.CpuUsageInfo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.vicetracker.Model.Vice
 import com.example.vicetracker.R
 
-class ViceListAdapter(val viceClicked:(vice: Vice)->Unit):
+class ViceListAdapter(val viceClicked:(vice: Vice)->Unit, val incrementUsage:(id: Int)->Unit):
 ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViceViewHolder {
         return ViceViewHolder.create(parent)
@@ -20,7 +21,7 @@ ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
 
     override fun onBindViewHolder(holder: ViceViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.name,current.amount)
+        current.id?.let { holder.bind(it,current.name,current.amount, incrementUsage) }
         holder.itemView.tag= current
         holder.itemView.setOnClickListener{
             viceClicked(holder.itemView.tag as Vice)
@@ -32,9 +33,13 @@ ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
         private val quantityTextView: TextView = itemView.findViewById(R.id.quantityText)
         val buttonClicky: Button = itemView.findViewById(R.id.addUsage)
 
-        fun bind(text: String?,quantity:Int?) {
+        fun bind(id: Int, text: String?,quantity:Int?, incrementUsage: (id: Int)-> Unit) {
             viceItemView.text = text
             quantityTextView.text = quantity.toString()
+
+            buttonClicky.setOnClickListener{
+                incrementUsage(id)
+            }
         }
         companion object {
             fun create(parent: ViewGroup): ViceViewHolder {
@@ -42,9 +47,6 @@ ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
                     .inflate(R.layout.recyclerview_item, parent, false)
                 return ViceViewHolder(view)
             }
-        }
-        fun incrementUsage(){
-
         }
     }
 

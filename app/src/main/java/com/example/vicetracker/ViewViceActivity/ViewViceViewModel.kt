@@ -4,15 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.vicetracker.Model.Vice
 import com.example.vicetracker.Model.ViceRepository
 import com.example.vicetracker.NewViceActivity.NewViceViewModel
+import kotlinx.coroutines.launch
 
 class ViewViceViewModel(private val repository: ViceRepository, private val id:Int) : ViewModel() {
     var curVice: LiveData<Vice> = repository.getVice(id).asLiveData()
 
     fun updateId(id:Int){
         curVice = repository.getVice(id).asLiveData()
+    }
+
+    fun updateChecked(itemId: Int) {
+        viewModelScope.launch {
+            repository.updateCompleted(itemId)
+        }
     }
 }
 

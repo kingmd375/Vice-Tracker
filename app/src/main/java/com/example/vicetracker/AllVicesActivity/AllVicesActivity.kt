@@ -10,11 +10,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.vicetracker.Model.Vice
 import com.example.vicetracker.NewViceActivity.EXTRA_ID
 import com.example.vicetracker.NewViceActivity.NewViceActivity
+import com.example.vicetracker.NewViceActivity.NewViceViewModel
 import com.example.vicetracker.R
 import com.example.vicetracker.VicesApplication
 import com.example.vicetracker.ViewViceActivity.ViewViceActivity
+import com.example.vicetracker.ViewViceActivity.ViewViceViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class AllVicesActivity : AppCompatActivity() {
@@ -42,23 +45,29 @@ class AllVicesActivity : AppCompatActivity() {
         }
     }
 
+    fun adapting(vice: Vice) {
+//        Log.d("MainActivity",name)
+        //Then create a new intent with the ID of the vice
+        val intent = Intent(this@AllVicesActivity, ViewViceActivity::class.java)
+        intent.putExtra(EXTRA_ID,vice.id)
+        //And start the activity through the results contract
+        startViewViceActivity.launch(intent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_vices)
 
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
-        val adapter = ViceListAdapter {
+//        val adapter = ViceListAdapter(this::incrementUsage(id))
+        val adapter = ViceListAdapter(this::adapting, this::incrementAmount)
             //This is the callback function to be executed
             //when a view in the ViceListAdapter is clicked
 
             //First we log the vice
-            Log.d("MainActivity",it.name)
-            //Then create a new intent with the ID of the vice
-            val intent = Intent(this@AllVicesActivity, ViewViceActivity::class.java)
-            intent.putExtra(EXTRA_ID,it.id)
-            //And start the activity through the results contract
-            startViewViceActivity.launch(intent)
-        }
+
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -78,4 +87,15 @@ class AllVicesActivity : AppCompatActivity() {
             startNewViceActivity.launch(intent)
         }
     }
+    private fun incrementAmount(id:Int){
+        viceListViewModel.increment(id)
+    }
+
+
+//    companion object {
+//        fun incrementUsage(id: Int) {
+//            viceListViewModel.increment(id)
+//            }
+//        }
+//    }
 }
