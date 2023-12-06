@@ -11,5 +11,5 @@ class VicesApplication : Application() {
     // rather than when the application starts
     val applicationScope = CoroutineScope(SupervisorJob())
     val database by lazy { ViceRoomDatabase.getDatabase(this,applicationScope) }
-    val repository by lazy { ViceRepository(database.viceDao()) }
+    val repository by lazy { ViceRepository(database.viceDao(), database.dayAmountDao()) }
 }

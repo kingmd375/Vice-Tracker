@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import java.util.Date
 
 const val EXTRA_ID:String = "com.example.vicetracker.NewViceActivity.EXTRA_ID"
 class NewViceActivity : AppCompatActivity() {
@@ -92,7 +93,8 @@ class NewViceActivity : AppCompatActivity() {
         if(id!=-1) {
             vice = newViceViewModel.curVice.value
         }else {
-            vice = Vice(null,"",0,0, "", "")
+            // initialize previous date of vice with epoch
+            vice = Vice(null,"",0,0, "", "", Date(0).time)
         }
         if (vice != null) {
             vice.name = editViceView.text.toString()

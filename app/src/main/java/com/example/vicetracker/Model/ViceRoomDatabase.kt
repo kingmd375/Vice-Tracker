@@ -9,9 +9,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Vice::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Vice::class, DayAmount::class), version = 1, exportSchema = false)
 abstract class ViceRoomDatabase : RoomDatabase() {
     abstract fun viceDao(): ViceDao
+    abstract fun dayAmountDao(): DayAmountDao
 
     private class ViceDatabaseCallback(
         private val scope: CoroutineScope
@@ -24,15 +25,31 @@ abstract class ViceRoomDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 scope.launch {
                     val viceDao = database.viceDao()
+                    val dayAmountDao = database.dayAmountDao()
 
                     // Delete all content here.
                     viceDao.deleteAll()
+                    dayAmountDao.deleteAll()
 
                     // Add sample vices.
-                    var vice = Vice(null,"Spaghetti",10, 2, "", "")
+                    var vice = Vice(0,"Spaghetti",10, 2, "", "", 1701820800000)
                     viceDao.insert(vice)
-                    vice = Vice(null,"Chicken",7, 3, "", "")
+                    vice = Vice(1,"Chicken",7, 3, "", "", 1701820800000)
                     viceDao.insert(vice)
+
+                    // Add sample dayAmounts
+                    var dayAmount = DayAmount(0, 1701820800000, 4)
+                    dayAmountDao.insert(dayAmount)
+                    dayAmount = DayAmount(0, 1701820800000 - 24*3600*1000, 7)
+                    dayAmountDao.insert(dayAmount)
+                    dayAmount = DayAmount(0, 1701820800000 - 3*24*3600*1000, 10)
+                    dayAmountDao.insert(dayAmount)
+                    dayAmount = DayAmount(1, 1701820800000 - 4*24*3600*1000, 1)
+                    dayAmountDao.insert(dayAmount)
+                    dayAmount = DayAmount(0, 1701820800000, 1)
+                    dayAmountDao.insert(dayAmount)
+                    dayAmount = DayAmount(1, 1701820800000, 2)
+                    dayAmountDao.insert(dayAmount)
                 }
             }
         }

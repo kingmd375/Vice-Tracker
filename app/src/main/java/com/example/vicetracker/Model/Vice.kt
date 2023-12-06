@@ -13,5 +13,6 @@ class Vice (
     @ColumnInfo(name = "limit") var limit: Int,
     @ColumnInfo(name = "amount") var amount: Int,
     @ColumnInfo(name = "unit") var unit: String,
-    @ColumnInfo(name = "increment") var increment: String
+    @ColumnInfo(name = "increment") var increment: String,
+    @ColumnInfo(name = "previous_date") var prevDate: Long
 )
