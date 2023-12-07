@@ -12,8 +12,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vicetracker.Model.Vice
 import com.example.vicetracker.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
-class ViceListAdapter(val viceClicked:(vice: Vice)->Unit, val incrementUsage:(id: Int)->Unit):
+class ViceListAdapter(val viceClicked:(vice: Vice)->Unit, val incrementUsage:(vice:Vice)->Unit):
 ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViceViewHolder {
         return ViceViewHolder.create(parent)
@@ -21,7 +25,7 @@ ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
 
     override fun onBindViewHolder(holder: ViceViewHolder, position: Int) {
         val current = getItem(position)
-        current.id?.let { holder.bind(it,current.name,current.amount, incrementUsage) }
+        current.id?.let { holder.bind(current, incrementUsage) }
         holder.itemView.tag= current
         holder.itemView.setOnClickListener{
             viceClicked(holder.itemView.tag as Vice)
@@ -32,13 +36,15 @@ ListAdapter<Vice, ViceListAdapter.ViceViewHolder>(VicesComparator()) {
         private val viceItemView: TextView = itemView.findViewById(R.id.itemText)
         private val quantityTextView: TextView = itemView.findViewById(R.id.quantityText)
         val buttonClicky: Button = itemView.findViewById(R.id.addUsage)
+        lateinit var vice:Vice
 
-        fun bind(id: Int, text: String?,quantity:Int?, incrementUsage: (id: Int)-> Unit) {
-            viceItemView.text = text
-            quantityTextView.text = quantity.toString()
+        fun bind(v:Vice, incrementUsage: (vice:Vice)-> Unit) {
+            vice = v
+            viceItemView.text = v.name
+            quantityTextView.text = v.amount.toString()
 
             buttonClicky.setOnClickListener{
-                incrementUsage(id)
+                incrementUsage(vice)
             }
         }
         companion object {

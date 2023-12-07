@@ -19,6 +19,9 @@ import com.example.vicetracker.VicesApplication
 import com.example.vicetracker.ViewViceActivity.ViewViceActivity
 import com.example.vicetracker.ViewViceActivity.ViewViceViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class AllVicesActivity : AppCompatActivity() {
     //This is our viewModel instance for the MainActivity class
@@ -46,7 +49,7 @@ class AllVicesActivity : AppCompatActivity() {
     }
 
     fun adapting(vice: Vice) {
-//        Log.d("MainActivity",name)
+        //First we log the vice
         //Then create a new intent with the ID of the vice
         val intent = Intent(this@AllVicesActivity, ViewViceActivity::class.java)
         intent.putExtra(EXTRA_ID,vice.id)
@@ -62,11 +65,6 @@ class AllVicesActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerview)
 //        val adapter = ViceListAdapter(this::incrementUsage(id))
         val adapter = ViceListAdapter(this::adapting, this::incrementAmount)
-            //This is the callback function to be executed
-            //when a view in the ViceListAdapter is clicked
-
-            //First we log the vice
-
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -87,8 +85,10 @@ class AllVicesActivity : AppCompatActivity() {
             startNewViceActivity.launch(intent)
         }
     }
-    private fun incrementAmount(id:Int){
-        viceListViewModel.increment(id)
+    private fun incrementAmount(vice: Vice){
+        CoroutineScope(SupervisorJob()).launch {
+            viceListViewModel.increment(vice)
+        }
     }
 
 

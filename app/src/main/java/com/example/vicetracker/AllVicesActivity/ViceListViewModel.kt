@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import com.example.vicetracker.Model.Vice
 import com.example.vicetracker.Model.ViceRepository
+import kotlinx.coroutines.coroutineScope
 
 class ViceListViewModel(private val repository: ViceRepository) : ViewModel() {
     // Using LiveData and caching what allVices returns has several benefits:
@@ -15,8 +16,11 @@ class ViceListViewModel(private val repository: ViceRepository) : ViewModel() {
     // - Repository is completely separated from the UI through the ViewModel.
     val allVices: LiveData<List<Vice>> = repository.allVices.asLiveData()
 
-    fun increment(id:Int){
+    suspend fun increment(vice: Vice){
         Log.d("AllVicesViewModel","BUTTON")
+        coroutineScope {
+            repository.incrementViceAmount(vice)
+        }
     }
 }
 

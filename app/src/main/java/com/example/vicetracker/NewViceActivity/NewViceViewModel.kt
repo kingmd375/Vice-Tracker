@@ -43,7 +43,7 @@ class NewViceViewModel(private val repository: ViceRepository, private val id:In
     suspend fun updateCompleted(id: Int) {
         coroutineScope {
             Log.d("ViewModel","Deleting id: $id")
-            repository.updateCompleted(id)
+            //repository.updateCompleted(id)
         }
     }
 }
