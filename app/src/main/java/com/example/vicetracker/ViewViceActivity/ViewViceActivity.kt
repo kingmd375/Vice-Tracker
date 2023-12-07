@@ -2,6 +2,7 @@ package com.example.vicetracker.ViewViceActivity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.vicetracker.NewViceActivity.EXTRA_ID
@@ -23,6 +24,7 @@ class ViewViceActivity : AppCompatActivity() {
         ViewViceViewModelFactory((application as VicesApplication).repository, -1)
     }
 
+    lateinit var engagementView: TextView
     lateinit var barChart: BarChart
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,7 @@ class ViewViceActivity : AppCompatActivity() {
         if (toolbar != null) {
             toolbar.setDisplayHomeAsUpEnabled(true)
         }
+        engagementView = findViewById(R.id.engagementView)
         barChart = findViewById(R.id.chart)
 
         // format chart
@@ -44,7 +47,10 @@ class ViewViceActivity : AppCompatActivity() {
         val id = intent.getIntExtra(EXTRA_ID,-1)
         viewViceViewModel.updateId(id)
         viewViceViewModel.curVice.observe(this) {
-                vice->vice?.let { if (toolbar != null) { toolbar.setTitle(vice.name) } }
+            vice->vice?.let {
+                if (toolbar != null) { toolbar.setTitle(vice.name) }
+                engagementView.text = "${viewViceViewModel.curVice.value?.amount} / ${viewViceViewModel.curVice.value?.limit} ${viewViceViewModel.curVice.value?.unit}"
+            }
         }
         viewViceViewModel.curViceDayAmounts.observe(this) {
             if (toolbar != null) addChartData()
@@ -59,6 +65,9 @@ class ViewViceActivity : AppCompatActivity() {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
         xAxis.setValueFormatter(XAxisValueFormatter())
         Log.d("ViewVice", "formatted chart")
+
+        // get rid of legend
+        barChart.legend.isEnabled = false
     }
 
     private fun addChartData() {

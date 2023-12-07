@@ -32,10 +32,9 @@ abstract class ViceRoomDatabase : RoomDatabase() {
                     dayAmountDao.deleteAll()
 
                     // Add sample vices.
-                    var vice = Vice(0,"Spaghetti",10, 2, "", "", 1701820800000)
+                    var vice = Vice(0,"Smoking",10, 2, "cigarettes", "1", 1701820800000)
                     viceDao.insert(vice)
-                    vice = Vice(1,"Chicken",7, 3, "", "", 1701820800000)
-                    viceDao.insert(vice)
+
 
                     // Add sample dayAmounts
                     var dayAmount = DayAmount(0, 1701820800000, 4)
@@ -43,11 +42,6 @@ abstract class ViceRoomDatabase : RoomDatabase() {
                     dayAmount = DayAmount(0, 1701820800000 - 24*3600*1000, 7)
                     dayAmountDao.insert(dayAmount)
                     dayAmount = DayAmount(0, 1701820800000 - 3*24*3600*1000, 10)
-                    dayAmountDao.insert(dayAmount)
-
-                    dayAmount = DayAmount(1, 1701820800000 - 4*24*3600*1000, 1)
-                    dayAmountDao.insert(dayAmount)
-                    dayAmount = DayAmount(1, 1701820800000, 2)
                     dayAmountDao.insert(dayAmount)
                 }
             }
